@@ -45,7 +45,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
-          images: levbugrov/gh_and_pyhon
+          images: levbugrov/gh_and_python
       
       - name: Build and push Docker image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
@@ -55,7 +55,7 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
-  telegram:
+  telegram_success:
     runs-on: ubuntu-latest
     needs: [ push_to_registry ]
     steps:
@@ -69,3 +69,19 @@ jobs:
             Repository: ${{ github.repository }}
             Commit message: ${{ github.event.commits[0].message }}
             by: ${{ github.actor }}
+  
+  telegram_fail:
+    if: failure() 
+    runs-on: ubuntu-latest
+    needs: [ push_to_registry ]
+    steps:
+      - name: send message
+        uses: "appleboy/telegram-action@master"
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            The build was fail
+            Repository: ${{ github.repository }}
+            Commit message: ${{ github.event.commits[0].message }}
+            bad human: ${{ github.actor }}
