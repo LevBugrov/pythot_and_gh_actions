@@ -9,19 +9,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  sys_info:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Run a multi-line script
-        run: |
-          uname
-          pwd
-      - name: system info
-        run: lshw
-  
   build:
     runs-on: ubuntu-latest
     strategy:
@@ -39,17 +26,16 @@ jobs:
           python -c "import sys; print(sys.version)"
           python -m pip install --upgrade pip
           python hello.py
-
-
-  test:
-    runs-on: ubuntu-latest
-    needs: [build]
-    steps:
-      - name: run_test
-        run: echo "hello test"
-
-  export:
+  
+  telegramm:
     runs-on: ubuntu-latest
     steps:
-      - name: run_export
-        run: echo "hello export"
+      - uses: "appleboy/telegram-action@master"
+      - name: send message
+        uses: actions/setup-python@v3
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            qu 
+            im bot
