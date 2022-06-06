@@ -29,7 +29,7 @@ jobs:
   
   telegramm:
     runs-on: ubuntu-latest
-    environment: TELEGRAM_ID
+    environment: telega
     steps:
       - uses: "appleboy/telegram-action@master"
       - name: send message
