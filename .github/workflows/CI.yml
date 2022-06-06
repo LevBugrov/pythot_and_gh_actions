@@ -29,7 +29,6 @@ jobs:
   
   telegramm:
     runs-on: ubuntu-latest
-    environment: telega
     steps:
       - uses: "appleboy/telegram-action@master"
       - name: send message
