@@ -30,6 +30,10 @@ jobs:
   telegramm:
     runs-on: ubuntu-latest
     steps:
+      - name: test
+        run: |
+          echo ${{ secrets.TELEGRAM_TO }}
+          echo ${{ secrets.TELEGRAM_TO }}
       - uses: "appleboy/telegram-action@master"
       - name: send message
         uses: actions/setup-python@v3
